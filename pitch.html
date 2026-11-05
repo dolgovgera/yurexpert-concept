@@ -1,0 +1,385 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>ЮрЭксперт онлайн — предложение</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600;700&family=Tektur:wght@500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/site.css">
+<style>
+  body { background: var(--paper); }
+  .slide { min-height: 100vh; padding-block: clamp(56px, 8vw, 110px); display: flex; align-items: center; }
+  .slide > .wrap { width: 100%; }
+  .dark { background: var(--asphalt); color: var(--white); }
+  .dark .lead { color: #B9BEC5; }
+  .kicker { font-family: var(--display); font-weight: 600; color: var(--steel); font-size: 1rem; margin-bottom: 18px; display: block; }
+  .dark .kicker { color: var(--signal); }
+  .slide h2 { font-size: clamp(2.2rem, 4.6vw, 3.8rem); max-width: 20ch; }
+
+  /* Cover */
+  .cover { background: var(--ink); color: var(--white); position: relative; overflow: hidden; }
+  .cover .logo { width: 220px; height: 60px; }
+  .cover h1 { font-size: clamp(2.8rem, 6.4vw, 5.6rem); max-width: 15ch; margin-top: 56px; line-height: .98; }
+  .cover .lead { color: #B9BEC5; font-size: 1.25rem; }
+  .cover-meta { display: flex; gap: 40px; flex-wrap: wrap; margin-top: 56px; color: #A4A9B0; }
+  .cover-meta b { display: block; color: var(--white); font-weight: 600; }
+  .cover .hero-car { width: min(1400px, 120vw); left: auto; right: -18vw; bottom: -30px; transform: none; }
+  .cover .hero-car path { stroke-width: .5; }
+  .cover-bg { position: absolute; inset: 0; z-index: 0; }
+  .cover-bg img, .cover-bg video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  .cover-bg::after { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, rgba(14,15,17,.95) 0%, rgba(14,15,17,.72) 38%, rgba(14,15,17,.05) 70%), linear-gradient(0deg, #0E0F11 0%, rgba(14,15,17,0) 35%); }
+  .cover h1 .w { display: inline-block; overflow: hidden; vertical-align: top; padding-bottom: .06em; }
+  .cover h1 .w > span { display: inline-block; }
+  .road-mini { position: relative; height: 70px; margin-top: 40px; }
+  .road-mini .asphalt { position: absolute; left: 0; right: 0; bottom: 0; height: 30px; background: #26282C; border-radius: 8px; overflow: hidden; }
+  .road-mini .asphalt::before { content: ""; position: absolute; left: 0; right: 0; top: 50%; height: 3px; margin-top: -1.5px; background: repeating-linear-gradient(90deg, #F3F4F5 0 30px, transparent 30px 52px); opacity: .5; }
+  .road-mini .trail { position: absolute; left: 0; top: 50%; height: 3px; margin-top: -1.5px; width: 0; background: var(--signal); box-shadow: 0 0 12px var(--signal); }
+  .road-mini svg { position: absolute; left: 0; bottom: 8px; width: 170px; overflow: visible; filter: drop-shadow(0 0 8px rgba(254,200,0,.7)); }
+  .road-mini svg path { fill: var(--signal); stroke: var(--signal); stroke-width: 1.2; }
+  .outs-lines { position: absolute; inset: 0; pointer-events: none; overflow: visible; }
+  .scroll-hint { position: absolute; left: 50%; bottom: 26px; transform: translateX(-50%); color: #7E848C; font-size: .9rem; z-index: 1; }
+
+  /* Now vs after */
+  .compare { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 48px; }
+  .compare > div { border-radius: var(--r-lg); padding: 30px; }
+  .was { background: var(--white); }
+  .will { background: var(--ink); color: var(--white); }
+  .compare h3 { font-size: 1.4rem; margin-bottom: 18px; }
+  .will h3 { color: var(--signal); }
+  .compare ul { list-style: none; padding: 0; margin: 0; display: grid; gap: 12px; }
+  .compare li { padding-left: 26px; position: relative; }
+  .was li::before { content: ""; position: absolute; left: 2px; top: .7em; width: 12px; height: 2px; background: #A9AFB6; }
+  .will li::before { content: ""; position: absolute; left: 0; top: .6em; width: 14px; height: 3px; background: var(--signal); }
+
+  /* Live previews */
+  .preview-grid { display: grid; grid-template-columns: 1.15fr .85fr; gap: 56px; align-items: center; }
+  .browser { border-radius: 14px; overflow: hidden; background: #fff; box-shadow: 0 40px 80px -30px rgba(0,0,0,.45); }
+  .browser-bar { height: 38px; background: #DCDFE3; display: flex; align-items: center; gap: 7px; padding: 0 14px; }
+  .browser-bar i { width: 11px; height: 11px; border-radius: 50%; background: #B8BDC3; }
+  .browser-bar span { margin-left: 14px; background: #fff; border-radius: 6px; padding: 3px 12px; font-size: .78rem; color: var(--steel); }
+  .frame-box { position: relative; width: 100%; aspect-ratio: 16 / 10; overflow: hidden; }
+  .frame-box iframe { position: absolute; top: 0; left: 0; width: 1440px; height: 900px; border: 0; transform-origin: 0 0; }
+  .points { list-style: none; padding: 0; margin: 28px 0 32px; display: grid; gap: 16px; }
+  .points b { display: block; font-family: var(--display); font-size: 1.15rem; }
+  .points span { color: var(--steel); }
+  .dark .points span { color: #B9BEC5; }
+  .links { display: flex; gap: 12px; flex-wrap: wrap; }
+  .app-preview { display: flex; justify-content: center; align-items: center; gap: 28px; }
+  .app-preview img { width: 180px; filter: drop-shadow(0 30px 40px rgba(0,0,0,.5)); }
+
+  /* Content factory */
+  .factory { display: grid; grid-template-columns: 260px 1fr; gap: 0; align-items: center; margin-top: 52px; }
+  .source { background: var(--signal); color: var(--ink); border-radius: var(--r-lg); padding: 28px; position: relative; z-index: 1; }
+  .source b { font-family: var(--display); font-size: 1.6rem; display: block; line-height: 1.1; }
+  .source span { display: block; margin-top: 8px; }
+  .outs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; padding-left: 48px; position: relative; }
+  .outs::before { content: ""; position: absolute; left: 0; top: 50%; width: 48px; height: 3px; background: repeating-linear-gradient(90deg, var(--signal) 0 10px, transparent 10px 16px); }
+  .outs div { background: #2E3135; border-radius: 12px; padding: 16px 18px; }
+  .outs b { display: block; }
+  .outs span { color: #A4A9B0; font-size: .9rem; }
+
+  /* Channels */
+  .channels { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2px; background: var(--line); border-radius: var(--r-lg); overflow: hidden; margin-top: 48px; }
+  .channels div { background: var(--white); padding: 24px; }
+  .channels b { font-family: var(--display); font-size: 1.15rem; display: block; margin-bottom: 6px; }
+  .channels span { color: var(--steel); font-size: .95rem; }
+
+  /* Roadmap */
+  .road { list-style: none; padding: 0; margin: 52px 0 0; display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; position: relative; }
+  .road::before { content: ""; position: absolute; left: 0; right: 0; top: 23px; height: 4px; background: repeating-linear-gradient(90deg, var(--ink) 0 28px, transparent 28px 44px); opacity: .25; }
+  .road li { position: relative; }
+  .road .m { width: 50px; height: 50px; border-radius: 50%; background: var(--ink); color: var(--signal); display: grid; place-items: center; font-family: var(--display); font-weight: 700; font-size: 1.2rem; position: relative; }
+  .road h3 { font-size: 1.15rem; margin: 18px 0 10px; }
+  .road ul { list-style: none; padding: 0; margin: 0; display: grid; gap: 6px; color: var(--steel); font-size: .95rem; }
+  .road .after { grid-column: 1 / -1; margin-top: 18px; background: var(--white); border-radius: var(--r-lg); padding: 22px 26px; display: flex; gap: 20px; align-items: center; flex-wrap: wrap; }
+  .road .after b { font-family: var(--display); font-size: 1.15rem; }
+
+  /* Price */
+  .price-cards { display: grid; grid-template-columns: 1.2fr 1fr; gap: 16px; margin-top: 48px; }
+  .pc { border-radius: var(--r-lg); padding: 34px; }
+  .pc.main { background: var(--signal); color: var(--ink); }
+  .pc.next { background: #2E3135; }
+  .pc small { display: block; font-size: 1rem; margin-bottom: 14px; }
+  .pc.next small { color: #A4A9B0; }
+  .pc .sum { font-family: var(--display); font-weight: 800; font-size: clamp(2.2rem, 4.4vw, 3.6rem); line-height: 1; }
+  .pc .per { font-size: 1.05rem; margin-top: 8px; display: block; }
+  .pc ul { list-style: none; padding: 0; margin: 26px 0 0; display: grid; gap: 8px; }
+  .pc.main li { padding-left: 22px; position: relative; }
+  .pc.main li::before { content: ""; position: absolute; left: 0; top: .65em; width: 12px; height: 3px; background: var(--ink); }
+  .pc.next li { color: #C5C9CF; }
+  .fine { color: #A4A9B0; margin-top: 22px; font-size: .95rem; max-width: 70ch; }
+
+  /* Next */
+  .next-steps { list-style: none; counter-reset: n; padding: 0; margin: 44px 0 48px; display: grid; gap: 0; max-width: 760px; }
+  .next-steps li { counter-increment: n; display: grid; grid-template-columns: 64px 1fr; align-items: baseline; padding: 20px 0; border-top: 1px solid var(--line); font-size: 1.15rem; }
+  .next-steps li::before { content: counter(n); font-family: var(--display); font-weight: 800; font-size: 2rem; }
+
+  .pager { position: fixed; right: 16px; top: 50%; transform: translateY(-50%); z-index: 30; display: grid; gap: 10px; }
+  .pager a { width: 10px; height: 10px; border-radius: 50%; background: #9AA0A8; display: block; opacity: .5; }
+  .pager a.on { background: var(--signal); opacity: 1; box-shadow: 0 0 0 3px rgba(0,0,0,.35); }
+
+  @media (max-width: 920px) {
+    .compare, .preview-grid, .price-cards, .factory { grid-template-columns: 1fr; }
+    .outs { padding-left: 0; padding-top: 24px; grid-template-columns: 1fr 1fr; }
+    .outs::before { left: 30px; top: 0; width: 3px; height: 24px; background: var(--signal); }
+    .channels { grid-template-columns: 1fr 1fr; }
+    .road { grid-template-columns: 1fr; }
+    .road::before { display: none; }
+    .pager { display: none; }
+    .slide { min-height: auto; }
+  }
+  @media (max-width: 560px) { .channels, .outs { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+
+<nav class="pager" aria-label="Слайды" id="pager"></nav>
+
+<section class="slide cover" id="s-cover">
+  <div class="cover-bg" aria-hidden="true"><img src="assets/gen/hero.jpg" alt=""><video id="cover-video" src="assets/gen/hero.mp4" muted playsinline loop autoplay></video></div>
+  <div class="wrap" style="position:relative;z-index:1">
+    <span class="logo"><img src="assets/logo-white.svg" alt="ЮрЭксперт"></span>
+    <h1>ЮрЭксперт онлайн: сайт, приложение и поток клиентов</h1>
+    <p class="lead">Предложение по развитию онлайн-направления ГК «ЮрЭксперт» на 2026–2027 годы.</p>
+    <div class="cover-meta">
+      <div><b>Для кого</b>Леся, Павел</div>
+      <div><b>Подготовил</b>Георгий</div>
+      <div><b>Дата</b>Ноябрь 2026</div>
+    </div>
+  </div>
+  <span class="scroll-hint">Листайте вниз</span>
+</section>
+
+<section class="slide" id="s-now">
+  <div class="wrap">
+    <span class="kicker">Где мы сейчас</span>
+    <h2>Компания сильная, а в интернете это не видно</h2>
+    <p class="lead">5,0 на Яндекс Картах и 104 отзыва, реальные кейсы с доплатой в разы больше выплаты страховой. Но клиент, который ищет помощь после ДТП, видит три разных сайта и не понимает, куда обращаться.</p>
+    <div class="compare">
+      <div class="was">
+        <h3>Сейчас</h3>
+        <ul>
+          <li>Три сайта на разных платформах, направления перемешаны</li>
+          <li>Дизайн устарел, на телефоне неудобно</li>
+          <li>Доступы разбросаны по сервисам и людям</li>
+          <li>Не видно, откуда приходят заявки и сколько стоят</li>
+          <li>Соцсети и статьи ведутся от случая к случаю</li>
+        </ul>
+      </div>
+      <div class="will">
+        <h3>После</h3>
+        <ul>
+          <li>Один сильный сайт под SEO и рекламу, отдельные страницы под каждую услугу</li>
+          <li>Приложение для клиентов в RuStore</li>
+          <li>Все доступы, домены и данные — у компании</li>
+          <li>Отчёт: сколько потратили, сколько заявок, договоров и денег</li>
+          <li>Контент выходит постоянно на всех площадках</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="slide dark" id="s-site">
+  <div class="wrap preview-grid">
+    <div class="browser">
+      <div class="browser-bar"><i></i><i></i><i></i><span>yur-expert-63.ru</span></div>
+      <div class="frame-box"><iframe src="index.html?preview" title="Новый сайт ЮрЭксперт" loading="lazy"></iframe></div>
+    </div>
+    <div>
+      <span class="kicker">Новый сайт</span>
+      <h2>Сайт, который продаёт разницу со страховой</h2>
+      <ul class="points">
+        <li><b>Цифры вместо слов</b><span>На первом экране — реальные дела: сколько дала страховая и сколько мы доказали.</span></li>
+        <li><b>Человек сразу находит свою ситуацию</b><span>ДТП, отказ, недоплата, плохой ремонт, яма — и сразу цена и кнопка.</span></li>
+        <li><b>Страница под каждую услугу и статьи</b><span>Это то, что Яндекс показывает в поиске.</span></li>
+      </ul>
+      <div class="links"><a class="btn btn-signal" href="index.html" target="_blank">Открыть сайт</a><a class="btn btn-ghost-light" href="avtoekspertiza.html" target="_blank">Страница услуги</a></div>
+    </div>
+  </div>
+</section>
+
+<section class="slide" id="s-app">
+  <div class="wrap preview-grid">
+    <div>
+      <span class="kicker">Мобильное приложение</span>
+      <h2>Клиент открывает приложение сразу после аварии</h2>
+      <ul class="points">
+        <li><b>Помощь при ДТП по шагам</b><span>Чек-лист, фото по подсказкам, вызов комиссара в одно касание.</span></li>
+        <li><b>Статус дела и чат с юристом</b><span>Меньше звонков «ну что там?», больше доверия.</span></li>
+        <li><b>Повод вернуться</b><span>Напоминание об ОСАГО, уведомления, приглашение друга — повторные обращения.</span></li>
+      </ul>
+      <div class="links"><a class="btn btn-ink" href="app.html" target="_blank">Посмотреть приложение</a></div>
+    </div>
+    <div class="app-preview"><img src="assets/app-icon.svg" alt="Иконка приложения ЮрЭксперт"></div>
+  </div>
+</section>
+
+<section class="slide dark" id="s-factory">
+  <div class="wrap">
+    <span class="kicker">Контент-завод</span>
+    <h2>Одно дело превращается в контент для всех площадок</h2>
+    <p class="lead">Выиграли спор со страховой — с помощью ИИ за день готовим материалы для сайта и соцсетей. ЮрЭксперт постоянно на виду, а вручную под каждую площадку ничего не пишем.</p>
+    <div class="factory">
+      <div class="source"><b>Один кейс</b><span>Haval F7: страховая — 329 000 ₽, экспертиза — 712 700 ₽</span></div>
+      <div class="outs">
+        <div><b>Статья на сайт</b><span>под поисковые запросы</span></div>
+        <div><b>Пост ВК и MAX</b><span>с цифрами дела</span></div>
+        <div><b>Статья в Дзен</b><span>длинный разбор</span></div>
+        <div><b>Shorts и Reels</b><span>короткое видео</span></div>
+        <div><b>Карточки</b><span>для соцсетей и рекламы</span></div>
+        <div><b>Ответы на вопросы</b><span>для сайта и приложения</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="slide" id="s-channels">
+  <div class="wrap">
+    <span class="kicker">Каналы</span>
+    <h2>Не зависим от одного источника клиентов</h2>
+    <p class="lead">Подорожал Директ — работают SEO, карты и соцсети. Человек не оставил заявку сразу — вернём его рекламой позже.</p>
+    <div class="channels">
+      <div><b>SEO и статьи</b><span>Бесплатный поток из поиска, который растёт каждый месяц</span></div>
+      <div><b>Яндекс Директ</b><span>Заявки с первой недели запуска</span></div>
+      <div><b>VK Ads и ретаргетинг</b><span>Возвращаем тех, кто был на сайте</span></div>
+      <div><b>Карты и 2ГИС</b><span>Отзывы, рейтинг, карточка компании</span></div>
+      <div><b>ВК и MAX</b><span>Упакованная группа, кейсы, общение</span></div>
+      <div><b>YouTube и Дзен</b><span>Экспертность и доверие</span></div>
+      <div><b>Репутация</b><span>Сбор отзывов и работа с негативом</span></div>
+      <div><b>Аналитика</b><span>Метрика, цели, звонки, отчёт</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="slide" id="s-plan" style="background:var(--white)">
+  <div class="wrap">
+    <span class="kicker">План запуска</span>
+    <h2>Пять месяцев, чтобы собрать всю систему</h2>
+    <div class="road-mini" aria-hidden="true"><div class="asphalt"><i class="trail"></i></div><svg viewBox="118 2 372 100" id="plan-car"></svg></div>
+    <ol class="road">
+      <li><div class="m">1</div><h3>Фундамент</h3><ul><li>Доступы к сервисам — компании</li><li>Метрика и цели</li><li>Дизайн нового сайта</li></ul></li>
+      <li><div class="m">2</div><h3>Сайт и реклама</h3><ul><li>Запуск сайта</li><li>Страницы услуг под SEO</li><li>Яндекс Директ</li></ul></li>
+      <li><div class="m">3</div><h3>Соцсети</h3><ul><li>Упаковка ВК, MAX, Дзен</li><li>Запуск контент-завода</li><li>VK Ads, ретаргетинг</li></ul></li>
+      <li><div class="m">4</div><h3>Приложение</h3><ul><li>Публикация в RuStore</li><li>YouTube и Shorts</li><li>Система отзывов</li></ul></li>
+      <li><div class="m">5</div><h3>Рост по цифрам</h3><ul><li>Отчёт по каналам</li><li>Новые связки и офферы</li><li>Масштабируем лучшее</li></ul></li>
+      <li class="after"><b>Дальше</b><span>Ведём и поддерживаем систему, каждый месяц — отчёт по заявкам, договорам и деньгам.</span></li>
+    </ol>
+  </div>
+</section>
+
+<section class="slide dark" id="s-price">
+  <div class="wrap">
+    <span class="kicker">Стоимость</span>
+    <h2>Один подрядчик отвечает за весь онлайн</h2>
+    <div class="price-cards">
+      <div class="pc main">
+        <small>Становление, 4–5 месяцев</small>
+        <div class="sum"><span data-count="200">200</span>–<span data-count="220">220</span> тыс. ₽</div><span class="per">в месяц</span>
+        <ul><li>Новый сайт и страницы услуг</li><li>Мобильное приложение и RuStore</li><li>SEO, Директ, VK Ads</li><li>Соцсети и контент-завод</li><li>Аналитика и отчётность</li></ul>
+      </div>
+      <div class="pc next">
+        <small>Ведение после запуска</small>
+        <div class="sum"><span data-count="100">100</span> тыс. ₽</div><span class="per">в месяц</span>
+        <ul><li>Поддержка сайта и приложения</li><li>Реклама и SEO</li><li>Контент на всех площадках</li><li>Ежемесячный отчёт</li></ul>
+      </div>
+    </div>
+    <p class="fine">Рекламный бюджет в Яндексе и ВК оплачивается отдельно, напрямую с аккаунтов компании.</p>
+  </div>
+</section>
+
+<section class="slide" id="s-next">
+  <div class="wrap">
+    <span class="kicker">Следующий шаг</span>
+    <h2>Что нужно, чтобы начать</h2>
+    <ol class="next-steps">
+      <li>Обсуждаем концепт и вносим правки</li>
+      <li>Собираем доступы к доменам, хостингу и рекламным кабинетам на компанию</li>
+      <li>Фиксируем план первого месяца и стартуем</li>
+    </ol>
+    <div class="links"><a class="btn btn-signal" href="index.html" target="_blank">Ещё раз посмотреть сайт</a><a class="btn btn-ghost" href="app.html" target="_blank">Приложение</a></div>
+  </div>
+</section>
+
+<script>
+  // Reuse the logo car from the site for the cover outline and the roadmap car
+  const carReady = fetch("index.html").then(r => r.text()).then(html => {
+    const m = html.match(/<g id="car-shape">([\s\S]*?)<\/g>/);
+    if (m) document.getElementById("plan-car").innerHTML = m[1];
+  }).catch(() => {});
+
+  // Scale live site previews to their box
+  const fit = () => document.querySelectorAll(".frame-box").forEach(b => {
+    b.querySelector("iframe").style.transform = `scale(${b.clientWidth / 1440})`;
+  });
+  addEventListener("resize", fit); fit();
+
+  // Slide pager
+  const slides = [...document.querySelectorAll(".slide")];
+  const pager = document.getElementById("pager");
+  pager.innerHTML = slides.map(s => `<a href="#${s.id}" aria-label="${(s.querySelector("h1,h2")?.textContent || "").trim()}"></a>`).join("");
+  const dots = [...pager.children];
+  const io = new IntersectionObserver(es => es.forEach(e => {
+    if (e.isIntersecting) dots.forEach((d, i) => d.classList.toggle("on", slides[i] === e.target));
+  }), { threshold: .4 });
+  slides.forEach(s => io.observe(s));
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script>
+  // Motion for the pitch: cover assembles, every slide builds itself on scroll
+  (() => {
+    if (!window.gsap) return;
+    gsap.registerPlugin(ScrollTrigger);
+    const v = document.getElementById("cover-video");
+    v?.addEventListener("error", () => v.remove());
+
+    const h1 = document.querySelector(".cover h1");
+    const words = h1.textContent.trim().split(/\s+/);
+    h1.innerHTML = words.map(w => `<span class="w"><span>${w}</span></span>`).join(" ");
+    gsap.timeline({ defaults: { ease: "power3.out" } })
+      .from(".cover-bg", { scale: 1.2, duration: 2.4, ease: "power2.out" })
+      .from(".cover .logo", { y: -30, opacity: 0, duration: 0.7 }, 0.2)
+      .from(".cover h1 .w > span", { yPercent: 110, duration: 0.9, stagger: 0.05 }, 0.35)
+      .from(".cover .lead, .cover-meta > div", { y: 24, opacity: 0, duration: 0.7, stagger: 0.08 }, 0.9);
+
+    const enter = (trigger, tl) => ScrollTrigger.create({ trigger, start: "top 70%", once: true, onEnter: () => tl.play() });
+    document.querySelectorAll(".slide:not(.cover)").forEach(s => {
+      const tl = gsap.timeline({ paused: true, defaults: { ease: "power3.out" } });
+      tl.from(s.querySelectorAll(".kicker, h2, .lead"), { y: 50, opacity: 0, duration: 0.8, stagger: 0.1 });
+      const items = s.querySelectorAll(".compare > div, .browser, .points li, .links .btn, .app-preview img, .channels > div, .road li, .pc, .fine, .next-steps li");
+      if (items.length) tl.from(items, { y: 60, opacity: 0, duration: 0.8, stagger: 0.07 }, "-=0.4");
+      enter(s, tl);
+    });
+
+    // App icon spins in like a coin
+    gsap.from(".app-preview img", { rotateY: 180, scale: 0.6, duration: 1.4, ease: "back.out(1.6)", scrollTrigger: { trigger: "#s-app", start: "top 60%" } });
+
+    // Content factory: the case card pulses, outputs shoot out of it one by one
+    const fac = gsap.timeline({ paused: true });
+    fac.from(".source", { scale: 0.7, opacity: 0, duration: 0.7, ease: "back.out(1.8)" })
+       .from(".outs div", { x: -120, opacity: 0, scale: 0.8, duration: 0.6, stagger: 0.12, ease: "power3.out" }, "<")
+       .to(".source", { boxShadow: "0 0 0 14px rgba(254,200,0,.18)", duration: 0.5, repeat: 3, yoyo: true }, "<");
+    enter(".factory", fac);
+
+    // Roadmap: the car drives across the five months while you scroll
+    carReady.then(() => {
+      gsap.timeline({ scrollTrigger: { trigger: "#s-plan", start: "top 60%", end: "bottom 60%", scrub: 0.8 } })
+        .fromTo("#plan-car", { x: -30 }, { x: () => document.querySelector(".road-mini").clientWidth - 160, ease: "none" }, 0)
+        .fromTo(".road-mini .trail", { width: 0 }, { width: "100%", ease: "none" }, 0);
+      gsap.to("#plan-car", { y: -2, duration: 0.18, repeat: -1, yoyo: true });
+    });
+    gsap.from(".road .m", { scale: 0, duration: 0.6, stagger: 0.15, ease: "back.out(2.5)", scrollTrigger: { trigger: ".road", start: "top 75%" } });
+
+    // Prices count up
+    document.querySelectorAll("[data-count]").forEach(el => {
+      const o = { v: 0 };
+      gsap.to(o, { v: +el.dataset.count, duration: 1.6, ease: "power2.out", onUpdate: () => { el.textContent = Math.round(o.v); },
+        scrollTrigger: { trigger: el, start: "top 85%", once: true } });
+    });
+  })();
+</script>
+</body>
+</html>
