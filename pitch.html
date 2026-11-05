@@ -39,6 +39,8 @@
   .road-mini svg { position: absolute; left: 0; bottom: 8px; width: 170px; overflow: visible; filter: drop-shadow(0 0 8px rgba(254,200,0,.7)); }
   .road-mini svg path { fill: var(--signal); stroke: var(--signal); stroke-width: 1.2; }
   .outs-lines { position: absolute; inset: 0; pointer-events: none; overflow: visible; }
+  .promo-frame { margin-top: 40px; border-radius: 18px; overflow: hidden; box-shadow: 0 40px 80px -30px rgba(0,0,0,.7), 0 0 0 1px #3A3D42; }
+  .promo-frame video { display: block; width: 100%; aspect-ratio: 16 / 9; background: #000; }
   .scroll-hint { position: absolute; left: 50%; bottom: 26px; transform: translateX(-50%); color: #7E848C; font-size: .9rem; z-index: 1; }
 
   /* Now vs after */
@@ -150,6 +152,14 @@
     </div>
   </div>
   <span class="scroll-hint">Листайте вниз</span>
+</section>
+
+<section class="slide dark" id="s-promo">
+  <div class="wrap">
+    <span class="kicker">Промо-ролик</span>
+    <h2>31 секунда о ЮрЭксперте</h2>
+    <div class="promo-frame"><video src="assets/gen/promo.mp4" poster="assets/gen/promo_poster.jpg" controls playsinline preload="metadata"></video></div>
+  </div>
 </section>
 
 <section class="slide" id="s-now">
