@@ -422,3 +422,6 @@ body.calm *, body.calm *::before, body.calm *::after { transition: none !importa
   .article-side { position: static; }
 }
 @media (max-width: 640px) { .when-grid { grid-template-columns: 1fr; } }
+
+html, body { overflow-x: clip; }
+
